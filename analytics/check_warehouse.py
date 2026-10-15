@@ -1,10 +1,13 @@
 """Validate the demo build's grains and layer boundaries after dbt build."""
 
 import json
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-from radar.db import make_engine
+from radar.db import Dataset, Job, Sponsor, make_engine
+from radar.raw import RawRecord, extract_operational_records
 from sqlalchemy import MetaData, Table, func, select
+from sqlalchemy.orm import Session
 
 
 def main():
@@ -40,6 +43,8 @@ def main():
         return Table(model["alias"], metadata, schema=model["schema"], autoload_with=engine)
 
     with engine.connect() as connection:
+        dataset = Table("dataset", metadata, schema="public", autoload_with=engine)
+        assert connection.scalar(select(dataset.c.mode)) == "demo", "Demo fixtures required"
         expected = {
             "stg_sponsors": 10,
             "int_sponsors_deduplicated": 5,
@@ -67,8 +72,60 @@ def main():
         )
         metrics = relation("fct_sponsor_job_metrics")
         assert connection.scalar(select(func.sum(metrics.c.fresh_open_role_count))) == 5
+    with Session(engine) as session:
+        assert session.get(Dataset, 1).mode == "demo"
+        sponsor = session.get(Sponsor, "00000001")
+        sponsor.name, sponsor.city = "  Updated sponsor  ", "  Amsterdam  "
+        sponsor.recognized = False
+        stale_job = session.get(Job, "demo:1")
+        stale_job.first_seen = datetime.now(UTC) - timedelta(days=7)
+        stale_job.last_seen = datetime.now(UTC) - timedelta(hours=73)
+        session.get(Job, "demo:2").active = False
+        session.flush()
+        batch_id = extract_operational_records(session)
+        session.flush()
+        raw_row = session.scalar(
+            select(RawRecord).where(
+                RawRecord.batch_id == batch_id,
+                RawRecord.source_table == "sponsors",
+                RawRecord.record_key == "00000001",
+            )
+        )
+        assert raw_row.payload["name"] == "  Updated sponsor  "
+        staging = relation("stg_sponsors")
+        staged = (
+            session.execute(
+                select(staging).where(
+                    staging.c.batch_id == batch_id, staging.c.sponsor_id == "00000001"
+                )
+            )
+            .mappings()
+            .one()
+        )
+        assert staged["sponsor_name"] == "Updated sponsor"
+        assert staged["city"] == "Amsterdam" and staged["kvk"] == "00000001"
+        assert staged["is_recognized"] is False
+        intermediate = relation("int_sponsors_deduplicated")
+        assert (
+            session.scalar(
+                select(intermediate.c.sponsor_name).where(intermediate.c.sponsor_id == "00000001")
+            )
+            == "Updated sponsor"
+        )
+        eligible = relation("int_jobs_eligible")
+        assert (
+            session.scalar(
+                select(func.count()).select_from(eligible).where(eligible.c.is_discoverable)
+            )
+            == 2
+        ), "Removed sponsors, stale vacancies and closed jobs must be excluded"
+        # Synthetic changes exercise the views only; leave fixture data and raw history untouched.
+        session.rollback()
     engine.dispose()
-    print("Verified 16 model layer boundaries, demo grains, deduplication and job metrics.")
+    print(
+        "Verified 16 model layer boundaries, demo grains, raw preservation, staging cleansing, "
+        "latest-version deduplication and business eligibility."
+    )
 
 
 if __name__ == "__main__":

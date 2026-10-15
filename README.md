@@ -327,6 +327,10 @@ The [CI workflow](.github/workflows/ci.yml) exercises both engines and runs
 `dbt build` against a seeded PostgreSQL service, plus the React tests/build.
 The seeded warehouse integration extracts the same five sponsors twice and
 checks that staging retains ten rows while sponsor dimensions contain five.
+Transactional integration probes also verify that raw whitespace remains intact,
+staging trims it, intermediate selects the latest version, and closed/stale jobs
+or jobs at removed sponsors are not discoverable. Those probe changes are rolled
+back; the seeded data is not altered.
 Tests mock network responses; they do not depend on the live IND site or ATS.
 
 Useful operational commands:
@@ -353,8 +357,6 @@ docker compose stop
   review upstream source terms. OpenStreetMap's public tiles are suitable for
   light interactive use; comply with its attribution/usage policy or use a
   dedicated tile provider at scale.
-- The remaining `README-WITHOUT-EMOJI` / `SLIMMED-README` files and assets are
-  untouched artifacts of the original README template, not setup instructions.
 
 ## License
 

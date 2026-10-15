@@ -19,7 +19,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 from sqlalchemy.schema import CreateSchema
 
-from radar.db import Base, Job, Snapshot, Sponsor, SponsorEvent, check_dataset, demo_mode
+from radar.db import Base, Dataset, Job, Snapshot, Sponsor, SponsorEvent, check_dataset
 
 REFRESH_LOCK_ID = 61824791
 
@@ -89,13 +89,16 @@ def archive_response(engine: Engine, response: httpx.Response, run_id: int, sour
 
 def extract_operational_records(session: Session, run_id: int | None = None) -> str:
     """Land unchanged source values; typing/cleansing belongs to dbt staging."""
+    dataset = session.get(Dataset, 1)
+    if dataset is None:
+        raise ValueError("Initialize the dataset before extracting raw records")
     batch_id = str(uuid4())
     session.add(
         RawBatch(
             id=batch_id,
             pipeline_run_id=run_id,
             extracted_at=datetime.now(UTC),
-            mode="demo" if demo_mode() else "live",
+            mode=dataset.mode,
         )
     )
     session.flush()
