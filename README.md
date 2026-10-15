@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Oranje Sponsor Radar: location pin and radar signal" width="144" height="144" />
+</p>
+
 # Oranje Sponsor Radar
 
 A map-based career discovery MVP for international professionals and graduates
@@ -8,6 +12,16 @@ and explore Netherlands vacancies from explicitly mapped public ATS boards.
 for every vacancy.** This application does not verify a vacancy's visa support.
 All collected jobs are labelled "not stated / not verified". Confirm eligibility
 and visa support directly with the employer before applying.
+
+## Portal preview
+
+![Live portal showing the sponsor directory, ASML company search, and city filters for Veldhoven and Amsterdam](assets/portal-preview.gif)
+
+Recorded from the live local deployment: 13,021 recognised sponsors and three
+enriched company locations. The GIF demonstrates company search and city filters;
+no tracked vacancies are available in this sample. Map data
+[&copy; OpenStreetMap contributors](https://www.openstreetmap.org/copyright).
+The original logo is also available as an [editable SVG](assets/logo.svg).
 
 ## Stack
 
@@ -45,9 +59,11 @@ Open <http://localhost:8080>. API documentation is at
 <http://localhost:8000/docs>.
 
 The initial live refresh imports the actual IND work register.
-**The live company enrichment configuration is deliberately empty:** IND does
-not supply industries, coordinates, career pages, or ATS mappings. Until you add
-verified mappings, the directory works, but the live map and jobs are empty.
+**The live configuration includes three sample location mappings:** ASML Holding,
+ASML Netherlands and Adyen. IND does not supply industries, coordinates, career
+pages, or ATS mappings. The sample locations were corroborated using GLEIF and
+PDOK; see [enrichment sources and sync](ENRICHMENT-README.md). Other sponsors stay
+unmapped until enriched, and jobs stay empty until verified ATS boards are added.
 No demo vacancies or guessed company matches are silently substituted.
 
 To enable daily refreshes and dbt builds:

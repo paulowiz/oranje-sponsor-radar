@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">Oranje Sponsor Radar</title>
+  <desc id="description">An orange location pin inside radar rings with a dark green discovery signal.</desc>
+  <rect x="16" y="16" width="480" height="480" rx="112" fill="#fff5eb"/>
+  <g fill="none" stroke="#ec6429">
+    <circle cx="256" cy="242" r="174" stroke-width="8" opacity=".2"/>
+    <circle cx="256" cy="242" r="126" stroke-width="8" opacity=".35"/>
+    <path d="M256 68v30M82 242h30M400 242h30M256 386v30" stroke-width="10" stroke-linecap="round" opacity=".5"/>
+  </g>
+  <path d="M256 122c-61 0-110 48-110 108 0 79 110 166 110 166s110-87 110-166c0-60-49-108-110-108Z" fill="#ec6429"/>
+  <circle cx="256" cy="232" r="44" fill="#fff5eb"/>
+  <path d="m256 232 119-110" fill="none" stroke="#243c35" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="375" cy="122" r="23" fill="#243c35" stroke="#fff5eb" stroke-width="8"/>
+</svg>
