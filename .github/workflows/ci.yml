@@ -10,29 +10,40 @@ permissions:
 jobs:
   backend:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:17-alpine
-        env:
-          POSTGRES_USER: radar
-          POSTGRES_PASSWORD: ci-only-not-for-deployment
-          POSTGRES_DB: radar_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U radar -d radar_test"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 20
     env:
       POSTGRES_HOST: localhost
       POSTGRES_USER: radar
-      POSTGRES_PASSWORD: ci-only-not-for-deployment
       POSTGRES_DB: radar_test
-      TEST_DATABASE_URL: postgresql+psycopg://radar:ci-only-not-for-deployment@localhost:5432/radar_test
       DBT_SEND_ANONYMOUS_USAGE_STATS: "false"
     steps:
       - uses: actions/checkout@v4
+      - name: Start PostgreSQL with an ephemeral test credential
+        run: |
+          POSTGRES_PASSWORD="$(openssl rand -hex 32)"
+          export POSTGRES_PASSWORD
+          echo "::add-mask::$POSTGRES_PASSWORD"
+          echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> "$GITHUB_ENV"
+          test_database_url="postgresql+psycopg://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/$POSTGRES_DB"
+          echo "::add-mask::$test_database_url"
+          echo "TEST_DATABASE_URL=$test_database_url" >> "$GITHUB_ENV"
+          docker run --detach --name radar-ci-postgres \
+            --env POSTGRES_USER --env POSTGRES_PASSWORD --env POSTGRES_DB \
+            --publish 127.0.0.1:5432:5432 \
+            --health-cmd "pg_isready -U radar -d radar_test" \
+            --health-interval 5s --health-timeout 5s --health-retries 20 \
+            postgres:17-alpine
+          for attempt in {1..60}; do
+            status="$(docker inspect --format '{{.State.Health.Status}}' radar-ci-postgres)"
+            if [ "$status" = healthy ]; then
+              exit 0
+            fi
+            if [ "$status" = unhealthy ]; then
+              break
+            fi
+            sleep 2
+          done
+          echo "::error::CI PostgreSQL failed its readiness check after $attempt attempts"
+          exit 1
       - uses: astral-sh/setup-uv@v7
         with:
           version: "0.11.32"
@@ -54,6 +65,9 @@ jobs:
       - name: Verify layered warehouse lineage and seeded data
         run: uv run --no-sync python analytics/check_warehouse.py
       - run: docker compose --profile live --profile tools config --quiet
+      - name: Remove temporary PostgreSQL container
+        if: always()
+        run: docker rm --force radar-ci-postgres
 
   frontend:
     runs-on: ubuntu-latest

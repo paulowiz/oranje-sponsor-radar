@@ -344,6 +344,9 @@ database tests against PostgreSQL, creating and dropping a unique test-owned
 schema per case. Use a dedicated test database with schema-creation permission.
 The [CI workflow](.github/workflows/ci.yml) exercises both engines and runs
 `dbt build` against a seeded PostgreSQL service, plus the React tests/build.
+CI generates a fresh random PostgreSQL password for each job, masks it in logs,
+and removes its temporary database container afterward. No fixed CI database
+password or repository secret setup is required.
 The seeded warehouse integration extracts the same five sponsors twice and
 checks that staging retains ten rows while sponsor dimensions contain five.
 Transactional integration probes also verify that raw whitespace remains intact,
