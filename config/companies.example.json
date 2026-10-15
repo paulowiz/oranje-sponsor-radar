@@ -1,0 +1,13 @@
+[
+  {
+    "kvk": "00000000",
+    "city": "Amsterdam",
+    "industry": "Technology",
+    "latitude": 52.3676,
+    "longitude": 4.9041,
+    "careers_url": "https://example.com/careers",
+    "provider": "greenhouse",
+    "board": "replace-with-verified-board-slug",
+    "nl_location_terms": ["Amsterdam", "Netherlands"]
+  }
+]

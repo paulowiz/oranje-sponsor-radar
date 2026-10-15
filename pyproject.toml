@@ -1,0 +1,28 @@
+[project]
+name = "oranje-sponsor-radar-workspace"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = ["oranje-sponsor-radar"]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["backend"]
+
+[tool.uv.sources]
+oranje-sponsor-radar = { workspace = true }
+
+[dependency-groups]
+dev = ["pytest>=8.3,<10", "ruff>=0.11,<1"]
+analytics = ["dbt-core>=1.12.6,<1.13", "dbt-postgres>=1.11,<1.12"]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

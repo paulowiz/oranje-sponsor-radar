@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: dim_sponsor
+    description: >
+      One current row per sponsor, including entities no longer listed. Type 1
+      dimension; natural sponsor IDs are stable keys, with no-KVK exceptions retained.
+    columns:
+      - name: sponsor_key
+        data_tests: [unique, not_null]
+      - name: dataset_mode
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [live, demo]
+  - name: dim_date
+    description: One row per UTC calendar date spanning the observed data through today.
+    columns:
+      - name: date_key
+        data_tests: [unique, not_null]
+      - name: date_day
+        data_tests: [unique, not_null]
+  - name: fct_job_openings
+    description: >
+      One current-state row per tracked vacancy, including closed and stale jobs.
+      Discoverability is calculated at build time, not a verified sponsorship claim.
+    columns:
+      - name: job_key
+        data_tests: [unique, not_null]
+      - name: sponsor_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_sponsor')
+                field: sponsor_key
+      - name: first_seen_date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: last_seen_date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+  - name: fct_sponsor_events
+    description: One row per observed lifecycle event, including baseline, not legal effective dates.
+    columns:
+      - name: sponsor_event_key
+        data_tests: [unique, not_null]
+      - name: sponsor_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_sponsor')
+                field: sponsor_key
+      - name: observed_date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: event_kind
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [baseline, added, removed, restored]
+  - name: fct_daily_sponsor_metrics
+    description: One row per observed UTC day. No fabricated data for missing days.
+    columns:
+      - name: observation_date_key
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+  - name: fct_sponsor_job_metrics
+    description: One current aggregate row per sponsor, including zero-job sponsors.
+    columns:
+      - name: sponsor_key
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_sponsor')
+                field: sponsor_key

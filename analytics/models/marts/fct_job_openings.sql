@@ -1,0 +1,20 @@
+select
+    job_id as job_key,
+    sponsor_id as sponsor_key,
+    to_char(first_seen_at at time zone 'UTC', 'YYYYMMDD')::integer as first_seen_date_key,
+    to_char(last_seen_at at time zone 'UTC', 'YYYYMMDD')::integer as last_seen_date_key,
+    provider,
+    board,
+    job_title,
+    job_location,
+    job_type,
+    job_url,
+    is_active,
+    is_discoverable as is_discoverable_at_build,
+    first_seen_at,
+    last_seen_at,
+    sponsorship,
+    dataset_mode,
+    source_extracted_at,
+    current_timestamp as mart_built_at
+from {{ ref('int_jobs_eligible') }}
