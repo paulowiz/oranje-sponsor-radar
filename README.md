@@ -154,7 +154,7 @@ Company details show up to 20 matching jobs and link to the careers page.
 | --- | --- | --- |
 | **Raw** | `raw` | Python loads source data without warehouse cleansing; dbt declares sources, not transformed raw models |
 | **Staging** | `analytics_staging` | `stg_*` views rename fields, trim whitespace, standardize casing and cast dates, timestamps, booleans and numerics |
-| **Intermediate** | `analytics_intermediate` | `int_*` views deduplicate repeated extracts, join business entities, calculate job eligibility and aggregate metrics |
+| **Intermediate** | `analytics_intermediate` | `itm_*` views deduplicate repeated extracts, join business entities, calculate job eligibility and aggregate metrics |
 | **Marts** | `analytics_marts` | Materialized `dim_*` and `fct_*` tables with documented grains and tested relationships |
 
 dbt's default schema naming is retained: `DBT_SCHEMA` (default `analytics`) is

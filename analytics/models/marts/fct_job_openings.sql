@@ -17,4 +17,4 @@ select
     dataset_mode,
     source_extracted_at,
     current_timestamp as mart_built_at
-from {{ ref('int_jobs_eligible') }}
+from {{ ref('itm_jobs_eligible') }}

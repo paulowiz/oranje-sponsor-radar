@@ -1,11 +1,11 @@
 with dates as (
-    select observation_date as date_day from {{ ref('int_daily_sponsor_metrics') }}
+    select observation_date as date_day from {{ ref('itm_daily_sponsor_metrics') }}
     union all
-    select observed_on from {{ ref('int_sponsor_events_deduplicated') }}
+    select observed_on from {{ ref('itm_sponsor_events_deduplicated') }}
     union all
-    select (first_seen_at at time zone 'UTC')::date from {{ ref('int_jobs_deduplicated') }}
+    select (first_seen_at at time zone 'UTC')::date from {{ ref('itm_jobs_deduplicated') }}
     union all
-    select (last_seen_at at time zone 'UTC')::date from {{ ref('int_jobs_deduplicated') }}
+    select (last_seen_at at time zone 'UTC')::date from {{ ref('itm_jobs_deduplicated') }}
 ),
 bounds as (
     select

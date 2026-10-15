@@ -13,4 +13,4 @@ select
     removed_on,
     dataset_mode,
     source_extracted_at
-from {{ ref('int_sponsors_deduplicated') }}
+from {{ ref('itm_sponsors_deduplicated') }}

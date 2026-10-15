@@ -11,4 +11,4 @@ select
     source_url,
     observed_at,
     dataset_mode
-from {{ ref('int_daily_sponsor_metrics') }}
+from {{ ref('itm_daily_sponsor_metrics') }}

@@ -6,4 +6,4 @@ select
     event_kind,
     dataset_mode,
     1 as event_count
-from {{ ref('int_sponsor_events_deduplicated') }}
+from {{ ref('itm_sponsor_events_deduplicated') }}

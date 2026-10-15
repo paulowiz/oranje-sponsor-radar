@@ -47,7 +47,7 @@ def main():
         assert connection.scalar(select(dataset.c.mode)) == "demo", "Demo fixtures required"
         expected = {
             "stg_sponsors": 10,
-            "int_sponsors_deduplicated": 5,
+            "itm_sponsors_deduplicated": 5,
             "dim_sponsor": 5,
             "stg_jobs": 10,
             "fct_job_openings": 5,
@@ -105,14 +105,14 @@ def main():
         assert staged["sponsor_name"] == "Updated sponsor"
         assert staged["city"] == "Amsterdam" and staged["kvk"] == "00000001"
         assert staged["is_recognized"] is False
-        intermediate = relation("int_sponsors_deduplicated")
+        intermediate = relation("itm_sponsors_deduplicated")
         assert (
             session.scalar(
                 select(intermediate.c.sponsor_name).where(intermediate.c.sponsor_id == "00000001")
             )
             == "Updated sponsor"
         )
-        eligible = relation("int_jobs_eligible")
+        eligible = relation("itm_jobs_eligible")
         assert (
             session.scalar(
                 select(func.count()).select_from(eligible).where(eligible.c.is_discoverable)
