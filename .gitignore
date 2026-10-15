@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+*.db
+node_modules/
+dist/
+*.tsbuildinfo
+analytics/target/
+analytics/logs/
+analytics/dbt_packages/

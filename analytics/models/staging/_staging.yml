@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: stg_sponsors
+    description: Typed and trimmed sponsor source rows; KVK remains text to retain leading zeros.
+    columns:
+      - name: raw_record_id
+        data_tests: [unique, not_null]
+      - name: sponsor_id
+        data_tests: [not_null]
+      - name: sponsor_name
+        data_tests: [not_null]
+      - name: is_recognized
+        data_tests: [not_null]
+  - name: stg_jobs
+    description: Typed job rows without deduplication, joining business entities or aggregations.
+    columns:
+      - name: raw_record_id
+        data_tests: [unique, not_null]
+      - name: job_id
+        data_tests: [not_null]
+      - name: job_type
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [full-time, part-time, internship, contract, unknown]
+      - name: sponsorship
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [not_stated]
+  - name: stg_sponsor_events
+    columns:
+      - name: raw_record_id
+        data_tests: [unique, not_null]
+      - name: event_kind
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [baseline, added, removed, restored]
+  - name: stg_daily_snapshots
+    columns:
+      - name: raw_record_id
+        data_tests: [unique, not_null]
+      - name: observation_date
+        data_tests: [not_null]

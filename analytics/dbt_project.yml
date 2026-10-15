@@ -1,0 +1,17 @@
+name: oranje_radar
+version: "1.0.0"
+config-version: 2
+profile: oranje_radar
+model-paths: ["models"]
+test-paths: ["tests"]
+models:
+  oranje_radar:
+    staging:
+      +schema: staging
+      +materialized: view
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+    marts:
+      +schema: marts
+      +materialized: table

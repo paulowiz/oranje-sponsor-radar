@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: itm_sponsors_deduplicated
+    columns:
+      - name: sponsor_id
+        data_tests: [unique, not_null]
+  - name: itm_jobs_deduplicated
+    columns:
+      - name: job_id
+        data_tests: [unique, not_null]
+      - name: sponsor_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('itm_sponsors_deduplicated')
+                field: sponsor_id
+  - name: itm_jobs_eligible
+    columns:
+      - name: job_id
+        data_tests: [unique, not_null]
+      - name: is_discoverable
+        data_tests: [not_null]
+  - name: itm_sponsor_job_metrics
+    columns:
+      - name: sponsor_id
+        data_tests: [unique, not_null]
+  - name: itm_sponsor_events_deduplicated
+    columns:
+      - name: event_id
+        data_tests: [unique, not_null]
+  - name: itm_daily_sponsor_metrics
+    columns:
+      - name: observation_date
+        data_tests: [unique, not_null]

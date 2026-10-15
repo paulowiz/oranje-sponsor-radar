@@ -1,0 +1,198 @@
+{
+  "sync_id": "2149ed72-91c6-4058-a0db-b0508af7534c",
+  "observed_at": "2026-10-15T21:04:05.153777+00:00",
+  "applied": true,
+  "companies": [
+    {
+      "kvk": "17085815",
+      "ind_name": "ASML Holding N.V.",
+      "status": "corroborated_location",
+      "legal_address": {
+        "lei": "724500Y6DUVHQD6OXN27",
+        "legal_name": "ASML Holding N.V.",
+        "street": "De Run",
+        "house_number": 6501,
+        "postcode": "5504DR",
+        "city": "Veldhoven",
+        "registration_updated_at": "2026-02-10T06:10:40Z"
+      },
+      "location": {
+        "kvk": "17085815",
+        "city": "Veldhoven",
+        "latitude": 51.40447454,
+        "longitude": 5.41706277,
+        "nl_location_terms": []
+      },
+      "review_only_wikidata": [
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q297879"
+          },
+          "website": {
+            "type": "uri",
+            "value": "https://www.asml.com/"
+          },
+          "industry": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q2986369"
+          },
+          "industryLabel": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "semiconductor industry"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": "gleif",
+          "url": "https://api.gleif.org/api/v1/lei-records?filter%5Bentity.registeredAs%5D=17085815&page%5Bsize%5D=10",
+          "raw_response_id": "b9e62a20-afa4-4eea-9e21-ba50079001e6",
+          "sha256": "18e5713483c479ec52954815982c7e2f3a62436c49ed99817ccc0d4b676aa11b",
+          "fetched_at": "2026-10-15T21:03:09.115613+00:00",
+          "cached": true
+        },
+        {
+          "source": "pdok",
+          "url": "https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=5504DR+6501&fq=type%3Aadres&fq=postcode%3A5504DR&fq=huisnummer%3A6501&rows=2",
+          "raw_response_id": "4d3ed0aa-47e7-474e-94a6-d9677e34df91",
+          "sha256": "71ac498eaf6592a064348dc9b42986036ee56c4408c4217d22b715fc54f4161b",
+          "fetched_at": "2026-10-15T21:03:09.468931+00:00",
+          "cached": true
+        },
+        {
+          "source": "wikidata",
+          "url": "https://query.wikidata.org/sparql?query=SELECT+%3Fitem+%3Fwebsite+%3Findustry+%3FindustryLabel+WHERE+%7B+%3Fitem+wdt%3AP3220+%2217085815%22.+OPTIONAL+%7B+%3Fitem+wdt%3AP856+%3Fwebsite+%7D+OPTIONAL+%7B+%3Fitem+wdt%3AP452+%3Findustry+%7D+SERVICE+wikibase%3Alabel+%7B+bd%3AserviceParam+wikibase%3Alanguage+%22en%2Cnl%22+%7D+%7D&format=json",
+          "raw_response_id": "23e7ab13-960a-43f7-b5e0-6ab3809bfc73",
+          "sha256": "e82849952ff947eb0f1bf9ef2868e7ebf557541970057f74bde49525fe8f6de7",
+          "fetched_at": "2026-10-15T21:03:10.147496+00:00",
+          "cached": true
+        }
+      ]
+    },
+    {
+      "kvk": "17052456",
+      "ind_name": "ASML Netherlands B.V.",
+      "status": "corroborated_location",
+      "legal_address": {
+        "lei": "724500KIFCT6QB1XJP91",
+        "legal_name": "ASML Netherlands B.V.",
+        "street": "De Run",
+        "house_number": 6501,
+        "postcode": "5504DR",
+        "city": "Veldhoven",
+        "registration_updated_at": "2026-02-10T06:10:40Z"
+      },
+      "location": {
+        "kvk": "17052456",
+        "city": "Veldhoven",
+        "latitude": 51.40447454,
+        "longitude": 5.41706277,
+        "nl_location_terms": []
+      },
+      "review_only_wikidata": [],
+      "sources": [
+        {
+          "source": "gleif",
+          "url": "https://api.gleif.org/api/v1/lei-records?filter%5Bentity.registeredAs%5D=17052456&page%5Bsize%5D=10",
+          "raw_response_id": "f2654583-dfa7-4271-ad7e-cc07789c3b5b",
+          "sha256": "9c9c50ed1d367541cde9689949b0888759f912da990f4ec265b4142067768e6d",
+          "fetched_at": "2026-10-15T21:03:10.554983+00:00",
+          "cached": true
+        },
+        {
+          "source": "pdok",
+          "url": "https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=5504DR+6501&fq=type%3Aadres&fq=postcode%3A5504DR&fq=huisnummer%3A6501&rows=2",
+          "raw_response_id": "4d3ed0aa-47e7-474e-94a6-d9677e34df91",
+          "sha256": "71ac498eaf6592a064348dc9b42986036ee56c4408c4217d22b715fc54f4161b",
+          "fetched_at": "2026-10-15T21:03:09.468931+00:00",
+          "cached": true
+        },
+        {
+          "source": "wikidata",
+          "url": "https://query.wikidata.org/sparql?query=SELECT+%3Fitem+%3Fwebsite+%3Findustry+%3FindustryLabel+WHERE+%7B+%3Fitem+wdt%3AP3220+%2217052456%22.+OPTIONAL+%7B+%3Fitem+wdt%3AP856+%3Fwebsite+%7D+OPTIONAL+%7B+%3Fitem+wdt%3AP452+%3Findustry+%7D+SERVICE+wikibase%3Alabel+%7B+bd%3AserviceParam+wikibase%3Alanguage+%22en%2Cnl%22+%7D+%7D&format=json",
+          "raw_response_id": "e73382e5-705d-4c67-9a93-08600b37a841",
+          "sha256": "f22443d364d72d4a2a6e7b82d373f44d4b49ebf8e19dabecaba56074cf51a986",
+          "fetched_at": "2026-10-15T21:03:10.919909+00:00",
+          "cached": true
+        }
+      ]
+    },
+    {
+      "kvk": "34259528",
+      "ind_name": "Adyen N.V.",
+      "status": "corroborated_location",
+      "legal_address": {
+        "lei": "724500973ODKK3IFQ447",
+        "legal_name": "Adyen N.V.",
+        "street": "Simon Carmiggeltstraat",
+        "house_number": 6,
+        "postcode": "1011DJ",
+        "city": "Amsterdam",
+        "registration_updated_at": "2026-05-15T05:10:32Z"
+      },
+      "location": {
+        "kvk": "34259528",
+        "city": "Amsterdam",
+        "latitude": 52.37650726,
+        "longitude": 4.90595647,
+        "nl_location_terms": []
+      },
+      "review_only_wikidata": [
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q4686934"
+          },
+          "website": {
+            "type": "uri",
+            "value": "https://www.adyen.com/"
+          },
+          "industry": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q97466005"
+          },
+          "industryLabel": {
+            "xml:lang": "en",
+            "type": "literal",
+            "value": "mobile payment industry"
+          }
+        }
+      ],
+      "sources": [
+        {
+          "source": "gleif",
+          "url": "https://api.gleif.org/api/v1/lei-records?filter%5Bentity.registeredAs%5D=34259528&page%5Bsize%5D=10",
+          "raw_response_id": "cacab1e2-8c84-4da0-aafc-ccc9864c33fc",
+          "sha256": "803f98ed38f099facfd2a5902fa4b5820cb4403a6f3eb20a613ca19e5ac2ff4e",
+          "fetched_at": "2026-10-15T21:03:11.354864+00:00",
+          "cached": true
+        },
+        {
+          "source": "pdok",
+          "url": "https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=1011DJ+6&fq=type%3Aadres&fq=postcode%3A1011DJ&fq=huisnummer%3A6&rows=2",
+          "raw_response_id": "149f8a92-6fac-4eb4-ac3e-d74bca7ce83a",
+          "sha256": "c3a9a4ffec5ba3634ef341cabfab011c12a330a264e1236faee16c3f0f3c9657",
+          "fetched_at": "2026-10-15T21:03:11.635459+00:00",
+          "cached": true
+        },
+        {
+          "source": "wikidata",
+          "url": "https://query.wikidata.org/sparql?query=SELECT+%3Fitem+%3Fwebsite+%3Findustry+%3FindustryLabel+WHERE+%7B+%3Fitem+wdt%3AP3220+%2234259528%22.+OPTIONAL+%7B+%3Fitem+wdt%3AP856+%3Fwebsite+%7D+OPTIONAL+%7B+%3Fitem+wdt%3AP452+%3Findustry+%7D+SERVICE+wikibase%3Alabel+%7B+bd%3AserviceParam+wikibase%3Alanguage+%22en%2Cnl%22+%7D+%7D&format=json",
+          "raw_response_id": "b8612940-3e7a-4ae3-be5d-2e53120af78c",
+          "sha256": "3217508b57af1045fd13d72993c0a4d7dc38ec973c2bd18f1d56c883370d1e0e",
+          "fetched_at": "2026-10-15T21:03:12.448375+00:00",
+          "cached": true
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "configuration_additions": [
+    "17085815",
+    "17052456",
+    "34259528"
+  ],
+  "preserved_existing": []
+}

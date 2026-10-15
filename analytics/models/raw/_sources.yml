@@ -1,0 +1,58 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: >
+      Append-only Python-owned landing tables. HTTP bodies are original public-source
+      responses; entity payloads are unchanged extracts of the operational database,
+      not a claim that operational data is unprocessed IND or ATS data.
+    tables:
+      - name: source_responses
+        description: >
+          Original HTTP response bytes after transport decompression, before parsing,
+          cleansing or filtering. Includes non-2xx and invalid responses for audit.
+          These are archived evidence, not automatically accepted warehouse records.
+        columns:
+          - name: id
+            data_tests: [unique, not_null]
+          - name: body
+            data_tests: [not_null]
+          - name: body_sha256
+            data_tests: [not_null]
+      - name: extract_batches
+        description: >
+          One atomic full extract after a successful or partial refresh, or explicit
+          export/demo seed. Failed registry runs do not produce entity extracts.
+        columns:
+          - name: id
+            data_tests: [unique, not_null]
+          - name: extracted_at
+            data_tests: [not_null]
+          - name: mode
+            data_tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: [live, demo]
+      - name: entity_records
+        description: >
+          One unchanged JSON serialization per operational row per extract batch.
+          Duplicates across extracts are intentional; dbt intermediate resolves them.
+        columns:
+          - name: id
+            data_tests: [unique, not_null]
+          - name: batch_id
+            data_tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('raw', 'extract_batches')
+                    field: id
+          - name: source_table
+            data_tests:
+              - accepted_values:
+                  arguments:
+                    values: [sponsors, jobs, sponsor_events, daily_snapshots]
+          - name: payload
+            data_tests: [not_null]
