@@ -83,6 +83,9 @@ changing the environment flag cannot relabel demo records as verified live data.
 
 ### Add verified company coverage
 
+For free-source options and the bounded GLEIF/PDOK/Wikidata enrichment sync,
+see [Company enrichment sources and sync](ENRICHMENT-README.md).
+
 Edit [config/companies.json](config/companies.json), following
 [config/companies.example.json](config/companies.example.json). The example is
 illustrative, not a verified employer, and must not be copied unchanged.
@@ -92,9 +95,9 @@ For each employer:
 1. Find its exact eight-digit KVK in the IND work register. Keep leading zeros.
 2. Verify the legal entity's relationship to its official careers site and
    Greenhouse or Lever board. A similar company name is not sufficient.
-3. Supply a company city, industry, and Netherlands coordinates. These are
+3. Supply a company city and Netherlands coordinates; industry is optional. These are
    curated enrichment, not IND-verified attributes or job-site coordinates.
-4. Set the ATS provider, board slug, and explicit Netherlands location terms.
+4. Optionally add a verified careers URL, ATS provider, board slug, and explicit Netherlands location terms.
    A company can be mapped without job collection by omitting provider/board.
 5. Run a refresh. Unknown KVKs, duplicate mappings and invalid configurations
    fail explicitly.

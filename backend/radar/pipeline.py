@@ -198,9 +198,12 @@ def _refresh(engine, config_path: Path, client: httpx.Client | None) -> bool:
                 sponsor = session.get(Sponsor, config.kvk)
                 if sponsor is None:
                     raise ValueError(f"Configured KVK {config.kvk} is absent from sponsor history")
-                sponsor.city, sponsor.industry = config.city, config.industry
+                sponsor.city = config.city
+                if config.industry is not None:
+                    sponsor.industry = config.industry
                 sponsor.latitude, sponsor.longitude = config.latitude, config.longitude
-                sponsor.careers_url = str(config.careers_url)
+                if config.careers_url is not None:
+                    sponsor.careers_url = str(config.careers_url)
         for config in companies:
             if not config.provider or config.kvk not in records:
                 continue

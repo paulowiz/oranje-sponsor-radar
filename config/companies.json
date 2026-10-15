@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "kvk": "17085815",
+    "city": "Veldhoven",
+    "latitude": 51.40447454,
+    "longitude": 5.41706277
+  },
+  {
+    "kvk": "17052456",
+    "city": "Veldhoven",
+    "latitude": 51.40447454,
+    "longitude": 5.41706277
+  },
+  {
+    "kvk": "34259528",
+    "city": "Amsterdam",
+    "latitude": 52.37650726,
+    "longitude": 4.90595647
+  }
+]

@@ -154,3 +154,32 @@ def test_database_mode_cannot_be_relabelled(engine, monkeypatch):
         check_dataset(engine)
     with Session(engine) as session:
         assert session.get(Dataset, 1).mode == "live"
+
+
+@pytest.mark.parametrize("has_curated_details", [False, True])
+def test_location_only_refresh_preserves_unknown_or_curated_details(
+    engine, tmp_path, has_curated_details
+):
+    records = {f"{i:08d}": f"Company {i}" for i in range(1, 1002)}
+    observe(engine, records, datetime.now(UTC))
+    industry = "Curated industry" if has_curated_details else None
+    careers_url = "https://example.com/careers" if has_curated_details else None
+    with Session(engine) as session, session.begin():
+        sponsor = session.get(Sponsor, "00000001")
+        sponsor.industry, sponsor.careers_url = industry, careers_url
+    path = tmp_path / "companies.json"
+    path.write_text(
+        json.dumps([{"kvk": "00000001", "city": "Amsterdam", "latitude": 52.37, "longitude": 4.90}])
+    )
+
+    def handler(request):
+        assert request.url.host == "ind.nl"
+        return httpx.Response(200, text=register_html([(v, k) for k, v in records.items()]))
+
+    with httpx.Client(transport=httpx.MockTransport(handler)) as client:
+        assert refresh(engine, path, client)
+    with Session(engine) as session:
+        sponsor = session.get(Sponsor, "00000001")
+        assert (sponsor.city, sponsor.latitude, sponsor.longitude) == ("Amsterdam", 52.37, 4.90)
+        assert sponsor.industry == industry and sponsor.careers_url == careers_url
+        assert session.scalar(select(func.count()).select_from(Job)) == 0

@@ -51,6 +51,19 @@ class RawBatch(RawBase):
     mode: Mapped[str]
 
 
+class RawEnrichmentResponse(RawBase):
+    __tablename__ = "enrichment_responses"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    sync_id: Mapped[str]
+    source: Mapped[str]
+    source_url: Mapped[str]
+    status_code: Mapped[int]
+    body: Mapped[bytes] = mapped_column(LargeBinary)
+    body_sha256: Mapped[str] = mapped_column(String(64))
+    fetched_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
 class RawRecord(RawBase):
     __tablename__ = "entity_records"
     __table_args__ = (UniqueConstraint("batch_id", "source_table", "record_key"),)

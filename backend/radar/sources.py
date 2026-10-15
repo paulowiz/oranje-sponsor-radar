@@ -16,10 +16,10 @@ class CompanyConfig(BaseModel):
 
     kvk: str = Field(pattern=r"^\d{8}$")
     city: str = Field(min_length=1)
-    industry: str = Field(min_length=1)
+    industry: str | None = Field(default=None, min_length=1)
     latitude: float = Field(ge=50.7, le=53.6)
     longitude: float = Field(ge=3.2, le=7.3)
-    careers_url: HttpUrl
+    careers_url: HttpUrl | None = None
     provider: Literal["greenhouse", "lever"] | None = None
     board: str | None = Field(default=None, pattern=r"^[a-zA-Z0-9_-]+$")
     nl_location_terms: list[str] = Field(default_factory=list)
