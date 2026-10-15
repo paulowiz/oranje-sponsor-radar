@@ -382,4 +382,8 @@ docker compose stop
 
 ## License
 
-See [LICENSE](LICENSE).
+The project code is licensed under the [MIT License](LICENSE), which permits
+reuse, modification, and redistribution, including for educational and
+commercial purposes, subject to its notice and disclaimer requirements.
+Third-party data, map tiles, and other assets remain subject to their own
+licenses and attribution requirements.
